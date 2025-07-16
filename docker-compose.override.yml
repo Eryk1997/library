@@ -1,0 +1,12 @@
+services:
+  library-php:
+    extra_hosts:
+      - host.docker.internal:host-gateway
+
+  library-nginx:
+    ports:
+      - "127.0.0.78:80:80"
+
+  library-db:
+    ports:
+      - "127.0.0.78:3306:3306"
