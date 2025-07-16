@@ -1,0 +1,39 @@
+services:
+  library-nginx:
+    image: nginx:stable-alpine
+    depends_on:
+      - library-php
+    networks:
+      - library-project
+    volumes:
+      - ".docker/nginx/default.conf:/etc/nginx/conf.d/default.conf"
+      - ".:/var/www/html"
+
+  library-php:
+    build:
+      context: .docker/
+    volumes:
+      - ".:/var/www/html"
+    networks:
+      - library-project
+
+  library-db:
+    image: mariadb:10.11.6
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: library
+      MYSQL_USER: library
+      MYSQL_PASSWORD: library
+      MYSQL_DATABASE: library_db
+    volumes:
+      - dbdata:/var/lib/mysql
+    networks:
+      - library-project
+
+networks:
+  library-project:
+    external: true
+
+volumes:
+  dbdata: ~
