@@ -12,17 +12,21 @@ use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\Table;
 use Symfony\Bridge\Doctrine\Types\UuidType;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Uid\Uuid;
 
 #[Entity]
 #[Table(name: 'users')]
 #[HasLifecycleCallbacks]
-class User
+class User implements PasswordAuthenticatedUserInterface
 {
+    #[Column(type: Types::STRING, length: 255)]
+    private string $password;
+
     public function __construct(
         #[Id]
         #[Column(type: UuidType::NAME, unique: true)]
-        private Uuid $id,
+        private Uuid   $id,
         #[Column(type: Types::STRING, length: 255)]
         private string $fistName,
         #[Column(type: Types::STRING, length: 255)]
@@ -30,7 +34,7 @@ class User
         #[Column(type: Types::STRING, length: 180, unique: true)]
         private string $email,
         #[Column(type: Types::STRING, enumType: Type::class)]
-        private Type $type,
+        private Type   $type,
     )
     {
     }
@@ -58,5 +62,15 @@ class User
     public function getType(): Type
     {
         return $this->type;
+    }
+
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
+
+    public function setPassword(string $password): void
+    {
+        $this->password = $password;
     }
 }

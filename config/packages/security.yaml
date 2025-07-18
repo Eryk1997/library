@@ -1,0 +1,28 @@
+# config/packages/security.yaml
+security:
+    password_hashers:
+        App\Modules\User\Domain\Entity\User:
+            algorithm: auto
+
+    providers:
+        app_user_provider:
+            entity:
+                class: App\Modules\User\Domain\Entity\User
+                property: email
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        main:
+            lazy: true
+            provider: app_user_provider
+            stateless: true
+            json_login:
+                check_path: /api/auth/login
+                username_path: email
+                password_path: password
+
+    access_control:
+        - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
