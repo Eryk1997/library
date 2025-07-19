@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Modules\Loan\Domain\Entity;
+declare(strict_types=1);
 
+namespace App\Modules\Loan\Domain\Entity;
 
 use App\Modules\Book\Domain\Entity\Book;
 use App\Modules\Loan\Domain\Enums\Status;
@@ -36,8 +37,7 @@ class Loan
         private \DateTimeImmutable $rentalDate,
         #[Column(type: Types::STRING, enumType: Status::class)]
         private Status $status,
-    )
-    {
+    ) {
     }
 
     public function getReturnDate(): ?\DateTimeImmutable

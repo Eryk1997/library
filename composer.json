@@ -11,14 +11,22 @@
         "doctrine/doctrine-bundle": "^2.15",
         "doctrine/doctrine-migrations-bundle": "^3.4",
         "doctrine/orm": "^3.5",
+        "lexik/jwt-authentication-bundle": "^3.1",
+        "phpdocumentor/reflection-docblock": "^5.6",
+        "phpstan/phpdoc-parser": "^2.2",
         "symfony/console": "7.3.*",
         "symfony/dotenv": "7.3.*",
         "symfony/flex": "^2",
         "symfony/framework-bundle": "7.3.*",
         "symfony/password-hasher": "7.3.*",
+        "symfony/property-access": "7.3.*",
+        "symfony/property-info": "7.3.*",
         "symfony/runtime": "7.3.*",
         "symfony/security-bundle": "7.3.*",
+        "symfony/serializer": "7.3.*",
+        "symfony/translation": "7.3.*",
         "symfony/uid": "7.3.*",
+        "symfony/validator": "7.3.*",
         "symfony/yaml": "7.3.*"
     },
     "config": {
@@ -61,7 +69,9 @@
         ],
         "post-update-cmd": [
             "@auto-scripts"
-        ]
+        ],
+        "fix": "vendor/bin/php-cs-fixer fix --config=./.php-cs-fixer.php",
+        "fix:dry": "vendor/bin/php-cs-fixer fix --config=./.php-cs-fixer.php --dry-run --diff"
     },
     "conflict": {
         "symfony/symfony": "*"
@@ -74,6 +84,7 @@
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^4.1",
-        "fakerphp/faker": "^1.24"
+        "fakerphp/faker": "^1.24",
+        "friendsofphp/php-cs-fixer": "^3.84"
     }
 }

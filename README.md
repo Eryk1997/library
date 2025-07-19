@@ -11,3 +11,15 @@
 5. Załaduj dane testowe:
    ```bash
     docker compose exec -it library-php ./bin/console doctrine:fixtures:load
+6. Generowanie JWT
+   ```bash
+    docker compose exec -it library-php ./bin/console lexik:jwt:generate-keypair
+7. Override .env.local JWT_PASSPHRASE
+
+
+
+
+#### Run php-cs-fixer
+```bash
+docker compose exec -it library-php ./vendor/bin/php-cs-fixer fix src
+```

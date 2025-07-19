@@ -32,8 +32,7 @@ class Book
         private int $numberCopies,
         #[Column(type: Types::INTEGER)]
         private readonly int $yearPublished,
-    )
-    {
+    ) {
     }
 
     public function getId(): Uuid

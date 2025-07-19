@@ -15,14 +15,16 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
-        main:
-            lazy: true
+        login:
+            pattern: ^/api/auth/login
             provider: app_user_provider
             stateless: true
-            json_login:
-                check_path: /api/auth/login
-                username_path: email
-                password_path: password
+
+        api:
+            pattern: ^/api
+            stateless: true
+            jwt: ~
 
     access_control:
+        - { path: ^/api/auth/login, roles: PUBLIC_ACCESS }
         - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
