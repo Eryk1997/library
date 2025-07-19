@@ -16,3 +16,10 @@
     docker compose exec -it library-php ./bin/console lexik:jwt:generate-keypair
 7. Override .env.local JWT_PASSPHRASE
 
+
+
+
+#### Run php-cs-fixer
+```shell
+docker compose exec library-php .tools/vendor/bin/php-cs-fixer fix src
+```
