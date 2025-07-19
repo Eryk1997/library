@@ -73,4 +73,9 @@ class BookQueryRepository extends ServiceEntityRepository implements BookQueryRe
 
         return PaginatorFactory::createScalarFromQuery($qb->getQuery(), $query->currentPage, $query->pageSize);
     }
+
+    public function findById(string $id): ?Book
+    {
+        return $this->find($id);
+    }
 }

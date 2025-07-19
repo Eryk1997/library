@@ -30,7 +30,7 @@
 }
 ```
 9. Test -> /api/books?currentPage=1&pageSize=5&author=Accusamus
-10. 
+10. Test -> /api/books/{id}
 
 
 
