@@ -13,12 +13,13 @@ use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\Table;
 use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Uid\Uuid;
 
 #[Entity]
 #[Table(name: 'users')]
 #[HasLifecycleCallbacks]
-class User implements PasswordAuthenticatedUserInterface
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[Column(type: Types::STRING, length: 255)]
     private string $password;
@@ -72,5 +73,22 @@ class User implements PasswordAuthenticatedUserInterface
     public function setPassword(string $password): void
     {
         $this->password = $password;
+    }
+
+    public function getRoles(): array
+    {
+        return match ($this->type) {
+            Type::LIBRARIAN => ['ROLE_LIBRARIAN'],
+            Type::MEMBER    => ['ROLE_MEMBER'],
+        };
+    }
+
+    public function eraseCredentials(): void
+    {
+    }
+
+    public function getUserIdentifier(): string
+    {
+        return $this->email;
     }
 }
