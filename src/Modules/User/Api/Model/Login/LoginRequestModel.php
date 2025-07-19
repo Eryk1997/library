@@ -15,7 +15,6 @@ final readonly class LoginRequestModel
         public string $email,
         #[NotBlank]
         public string $password,
-    )
-    {
+    ) {
     }
 }

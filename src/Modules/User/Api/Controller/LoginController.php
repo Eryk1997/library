@@ -23,8 +23,7 @@ class LoginController extends AbstractApiController
         #[MapRequestPayload]
         LoginRequestModel $loginRequestModel,
         LoginQueryHandler $loginQueryHandler,
-    ): JsonResponse
-    {
+    ): JsonResponse {
         try {
             $loginQueryResult = $loginQueryHandler(new LoginQuery(
                 email: $loginRequestModel->email,

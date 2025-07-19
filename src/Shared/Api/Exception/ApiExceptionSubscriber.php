@@ -19,7 +19,8 @@ class ApiExceptionSubscriber implements EventSubscriberInterface
 
     public function __construct(
         private readonly Security $security,
-    ) {}
+    ) {
+    }
 
     public static function getSubscribedEvents(): array
     {
@@ -31,8 +32,8 @@ class ApiExceptionSubscriber implements EventSubscriberInterface
     public function onException(ExceptionEvent $event): void
     {
         $throwable = $event->getThrowable();
-        $request   = $event->getRequest();
-        $fwName    = $this->security->getFirewallConfig($request)?->getName();
+        $request = $event->getRequest();
+        $fwName = $this->security->getFirewallConfig($request)?->getName();
 
         if ($fwName !== self::API_FIREWALL) {
             return;
@@ -50,7 +51,7 @@ class ApiExceptionSubscriber implements EventSubscriberInterface
             }
 
             $response = new JsonResponse([
-                'code'   => Response::HTTP_UNPROCESSABLE_ENTITY,
+                'code' => Response::HTTP_UNPROCESSABLE_ENTITY,
                 'errors' => $errors,
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
 
@@ -61,7 +62,7 @@ class ApiExceptionSubscriber implements EventSubscriberInterface
 
         if ($throwable instanceof BadCredentialsException) {
             $response = new JsonResponse([
-                'code'    => Response::HTTP_UNAUTHORIZED,
+                'code' => Response::HTTP_UNAUTHORIZED,
                 'message' => $throwable->getMessage(),
             ], Response::HTTP_UNAUTHORIZED);
 

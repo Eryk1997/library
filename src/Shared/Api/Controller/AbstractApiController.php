@@ -4,20 +4,18 @@ declare(strict_types=1);
 
 namespace App\Shared\Api\Controller;
 
-use DateTimeImmutable;
-use Exception;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use Symfony\Component\HttpFoundation\Response;
-use Throwable;
 
 class AbstractApiController
 {
     public function __construct(
         private readonly SerializerInterface $serializer,
         private readonly TranslatorInterface $translator,
-    ) {}
+    ) {
+    }
 
     protected function successData(mixed $data, int $response = Response::HTTP_OK): JsonResponse
     {

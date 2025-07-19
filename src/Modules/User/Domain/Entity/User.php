@@ -27,7 +27,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function __construct(
         #[Id]
         #[Column(type: UuidType::NAME, unique: true)]
-        private Uuid   $id,
+        private Uuid $id,
         #[Column(type: Types::STRING, length: 255)]
         private string $fistName,
         #[Column(type: Types::STRING, length: 255)]
@@ -35,9 +35,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         #[Column(type: Types::STRING, length: 180, unique: true)]
         private string $email,
         #[Column(type: Types::STRING, enumType: Type::class)]
-        private Type   $type,
-    )
-    {
+        private Type $type,
+    ) {
     }
 
     public function getId(): Uuid
@@ -79,7 +78,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return match ($this->type) {
             Type::LIBRARIAN => ['ROLE_LIBRARIAN'],
-            Type::MEMBER    => ['ROLE_MEMBER'],
+            Type::MEMBER => ['ROLE_MEMBER'],
         };
     }
 

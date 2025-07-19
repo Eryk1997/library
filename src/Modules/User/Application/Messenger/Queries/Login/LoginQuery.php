@@ -9,7 +9,6 @@ final readonly class LoginQuery
     public function __construct(
         public string $email,
         public string $password,
-    )
-    {
+    ) {
     }
 }

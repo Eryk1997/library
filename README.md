@@ -20,6 +20,6 @@
 
 
 #### Run php-cs-fixer
-```shell
-docker compose exec library-php .tools/vendor/bin/php-cs-fixer fix src
+```bash
+docker compose exec -it library-php ./vendor/bin/php-cs-fixer fix src
 ```

@@ -16,9 +16,8 @@ readonly class LoginQueryHandler
     public function __construct(
         private UserProvider $userProvider,
         private UserPasswordHasherInterface $passwordHasher,
-        private JWTTokenManagerInterface    $jwtManager,
-    )
-    {
+        private JWTTokenManagerInterface $jwtManager,
+    ) {
     }
 
     public function __invoke(LoginQuery $query): LoginQueryResult

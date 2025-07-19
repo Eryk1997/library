@@ -11,8 +11,7 @@ final readonly class LoginResponseModel
     public function __construct(
         public string $token,
         public string $email,
-    )
-    {
+    ) {
     }
 
     public static function fromQueryResult(LoginQueryResult $result): self

@@ -12,8 +12,7 @@ final readonly class UserProvider
 {
     public function __construct(
         private UserQueryRepositoryInterface $userQueryRepository,
-    )
-    {
+    ) {
     }
 
     public function findByEmail(string $email): User
