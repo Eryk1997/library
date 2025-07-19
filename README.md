@@ -15,6 +15,23 @@
    ```bash
     docker compose exec -it library-php ./bin/console lexik:jwt:generate-keypair
 7. Override .env.local JWT_PASSPHRASE
+8. Test login -> /api/auth/login
+```
+{
+  "email": "eryk.librarian@gmail.com",
+  "password": "LIBRARIAN"
+}
+```
+
+```
+{
+  "email": "eryk.member@gmail.com",
+  "password": "MEMBER"
+}
+```
+9. Test -> /api/books?currentPage=1&pageSize=5&author=Accusamus
+10. 
+
 
 
 

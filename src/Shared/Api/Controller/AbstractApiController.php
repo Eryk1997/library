@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Shared\Api\Controller;
 
+use App\Shared\Api\Model\PaginationModel;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -49,6 +50,15 @@ class AbstractApiController
                 $errors,
             ],
         ], Response::HTTP_BAD_REQUEST);
+    }
+
+    protected function successPaginatedData(mixed $data, PaginationModel $pagination): JsonResponse
+    {
+        return $this->json([
+            'response' => true,
+            'data' => $data,
+            'pagination' => $pagination,
+        ]);
     }
 
     /**
