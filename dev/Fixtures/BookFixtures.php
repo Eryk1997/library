@@ -4,6 +4,11 @@ declare(strict_types=1);
 
 namespace App\Dev\Fixtures;
 
+use App\Modules\Book\Domain\Embeddable\Author;
+use App\Modules\Book\Domain\Embeddable\Isbn;
+use App\Modules\Book\Domain\Embeddable\NumberCopies;
+use App\Modules\Book\Domain\Embeddable\Title;
+use App\Modules\Book\Domain\Embeddable\YearPublished;
 use App\Modules\Book\Domain\Entity\Book;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -19,11 +24,11 @@ class BookFixtures extends Fixture
         for ($i = 0; $i < 10; $i++) {
             $book = new Book(
                 id: Uuid::v7(),
-                title: $faker->sentence(3),
-                author: $faker->sentence(3),
-                isbn: $faker->isbn13(),
-                numberCopies: $faker->numberBetween(1,15),
-                yearPublished: $faker->numberBetween(1950, 2024),
+                title: new Title($faker->sentence(3)) ,
+                author: new Author($faker->sentence(3))  ,
+                isbn: new Isbn($faker->isbn13()) ,
+                numberCopies: new NumberCopies($faker->numberBetween(1,15)) ,
+                yearPublished: new YearPublished($faker->numberBetween(1950, 2024)) ,
             );
 
             $manager->persist($book);

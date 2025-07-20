@@ -9,7 +9,7 @@ readonly class ListBookQueryResultVO
     public function __construct(
         public string $title,
         public string $author,
-        public int $isbn,
+        public string $isbn,
         public int $yearPublished,
     ) {
     }

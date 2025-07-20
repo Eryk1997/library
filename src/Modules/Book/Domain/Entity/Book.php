@@ -4,8 +4,13 @@ declare(strict_types=1);
 
 namespace App\Modules\Book\Domain\Entity;
 
-use Doctrine\DBAL\Types\Types;
+use App\Modules\Book\Domain\Embeddable\Author;
+use App\Modules\Book\Domain\Embeddable\Isbn;
+use App\Modules\Book\Domain\Embeddable\NumberCopies;
+use App\Modules\Book\Domain\Embeddable\Title;
+use App\Modules\Book\Domain\Embeddable\YearPublished;
 use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\Embedded;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 use Doctrine\ORM\Mapping\Id;
@@ -22,16 +27,16 @@ class Book
         #[Id]
         #[Column(type: UuidType::NAME, unique: true)]
         private Uuid $id,
-        #[Column(type: Types::STRING, length: 255)]
-        private string $title,
-        #[Column(type: Types::STRING, length: 255)]
-        private string $author,
-        #[Column(type: Types::STRING, length: 20)]
-        private string $isbn,
-        #[Column(type: Types::INTEGER)]
-        private int $numberCopies,
-        #[Column(type: Types::INTEGER)]
-        private readonly int $yearPublished,
+        #[Embedded(class: Title::class, columnPrefix: false)]
+        private Title $title,
+        #[Embedded(class: Author::class, columnPrefix: false)]
+        private Author $author,
+        #[Embedded(class: Isbn::class, columnPrefix: false)]
+        private Isbn $isbn,
+        #[Embedded(class: NumberCopies::class, columnPrefix: false)]
+        private NumberCopies $numberCopies,
+        #[Embedded(class: YearPublished::class, columnPrefix: false)]
+        private readonly YearPublished $yearPublished,
     ) {
     }
 
@@ -42,26 +47,26 @@ class Book
 
     public function getTitle(): string
     {
-        return $this->title;
+        return $this->title->getTitle();
     }
 
     public function getAuthor(): string
     {
-        return $this->author;
+        return $this->author->getAuthor();
     }
 
     public function getIsbn(): string
     {
-        return $this->isbn;
+        return $this->isbn->getIsbn();
     }
 
     public function getYearPublished(): int
     {
-        return $this->yearPublished;
+        return $this->yearPublished->getYearPublished();
     }
 
     public function getNumberCopies(): int
     {
-        return $this->numberCopies;
+        return $this->numberCopies->getNumberCopies();
     }
 }

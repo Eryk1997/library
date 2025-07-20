@@ -25,4 +25,15 @@ final readonly class BookProvider
 
         return $book;
     }
+
+    public function findByTitle(string $title): Book
+    {
+        $book = $this->bookQueryRepository->findByTitle($title);
+
+        if ($book === null) {
+            throw new NotFoundBookException('book.not_found');
+        }
+
+        return $book;
+    }
 }

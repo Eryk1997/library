@@ -34,10 +34,10 @@ class BookQueryRepository extends ServiceEntityRepository implements BookQueryRe
         $qb = $this->createQueryBuilder('book')
             ->select(sprintf(
                 'NEW %s(
-                    book.title,
-                    book.author,
-                    book.isbn,
-                    book.yearPublished
+                    book.title.title,
+                    book.author.author,
+                    book.isbn.isbn,
+                    book.yearPublished.yearPublished
                 )',
                 ListBookQueryResultVO::class,
             ))
@@ -45,28 +45,28 @@ class BookQueryRepository extends ServiceEntityRepository implements BookQueryRe
 
         if ($query->author) {
             $qb
-                ->andWhere('book.author LIKE :author')
+                ->andWhere('book.author.author LIKE :author')
                 ->setParameter('author', '%'.$query->author.'%')
             ;
         }
 
         if ($query->title) {
             $qb
-                ->andWhere('book.title LIKE :title')
+                ->andWhere('book.title.title LIKE :title')
                 ->setParameter('title', '%'.$query->title.'%')
             ;
         }
 
         if ($query->isbn) {
             $qb
-                ->andWhere('book.isbn = :isbn')
+                ->andWhere('book.isbn.isbn = :isbn')
                 ->setParameter('isbn', $query->isbn)
             ;
         }
 
         if ($query->yearPublished) {
             $qb
-                ->andWhere('book.yearPublished = :yearPublished')
+                ->andWhere('book.yearPublished.yearPublished = :yearPublished')
                 ->setParameter('yearPublished', $query->yearPublished)
             ;
         }
@@ -77,5 +77,10 @@ class BookQueryRepository extends ServiceEntityRepository implements BookQueryRe
     public function findById(string $id): ?Book
     {
         return $this->find($id);
+    }
+
+    public function findByTitle(string $title): ?Book
+    {
+        return $this->findOneBy(['title.title' => $title]);
     }
 }
