@@ -8,6 +8,7 @@ use App\Modules\Book\Api\Validator\Constraint\UniqueBookTitle;
 use App\Modules\Book\Application\Messenger\Command\CreateBookCommand;
 use App\Modules\Book\Domain\ValueObject\BookId;
 use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
+use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 final readonly class CreateRequestModel
@@ -15,10 +16,13 @@ final readonly class CreateRequestModel
     public function __construct(
         #[NotBlank]
         #[UniqueBookTitle]
+        #[Length(max: 255)]
         public string $title,
         #[NotBlank]
+        #[Length(max: 255)]
         public string $author,
         #[NotBlank]
+        #[Length(max: 20)]
         public string $isbn,
         #[NotBlank]
         #[GreaterThanOrEqual(1, message: 'Liczba egzemplarzy musi być co najmniej 1.')]
