@@ -4,6 +4,7 @@ user:
 
 book:
     not_found: 'Nie znaleziono książki!'
+    available: 'Książka niedostpęna'
     title_already_exists: 'Książka o tytule: {{ title }}, już istnieje.'
     title:
         max_length: 'Tytuł nie może być większy niż %max% znaki'

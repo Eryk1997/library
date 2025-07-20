@@ -25,6 +25,9 @@ class Loan
     #[Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
     private ?\DateTimeImmutable $returnDate = null;
 
+    #[Column(type: Types::DATETIME_IMMUTABLE)]
+    private \DateTimeImmutable $rentalDate;
+
     public function __construct(
         #[Id]
         #[Column(type: UuidType::NAME, unique: true)]
@@ -33,11 +36,10 @@ class Loan
         private Book $book,
         #[ManyToOne(targetEntity: User::class)]
         private User $user,
-        #[Column(type: Types::DATETIME_IMMUTABLE)]
-        private \DateTimeImmutable $rentalDate,
         #[Column(type: Types::STRING, enumType: Status::class)]
         private Status $status,
     ) {
+        $this->rentalDate = new \DateTimeImmutable();
     }
 
     public function getReturnDate(): ?\DateTimeImmutable
