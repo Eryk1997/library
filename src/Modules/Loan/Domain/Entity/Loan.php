@@ -14,7 +14,6 @@ use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\Table;
-use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Component\Uid\Uuid;
 
 #[Entity]
@@ -30,7 +29,7 @@ class Loan
 
     public function __construct(
         #[Id]
-        #[Column(type: UuidType::NAME, unique: true)]
+        #[Column(type: 'uuid_mariadb', unique: true)]
         private Uuid $id,
         #[ManyToOne(targetEntity: Book::class)]
         private Book $book,

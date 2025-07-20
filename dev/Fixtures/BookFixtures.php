@@ -10,6 +10,7 @@ use App\Modules\Book\Domain\Embeddable\NumberCopies;
 use App\Modules\Book\Domain\Embeddable\Title;
 use App\Modules\Book\Domain\Embeddable\YearPublished;
 use App\Modules\Book\Domain\Entity\Book;
+use App\Modules\Book\Domain\ValueObject\BookId;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
@@ -23,7 +24,7 @@ class BookFixtures extends Fixture
 
         for ($i = 0; $i < 10; $i++) {
             $book = new Book(
-                id: Uuid::v7(),
+                id: BookId::new()->toUuid(),
                 title: new Title($faker->sentence(3)) ,
                 author: new Author($faker->sentence(3))  ,
                 isbn: new Isbn($faker->isbn13()) ,

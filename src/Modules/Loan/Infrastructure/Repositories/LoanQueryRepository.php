@@ -7,6 +7,8 @@ namespace App\Modules\Loan\Infrastructure\Repositories;
 use App\Modules\Loan\Domain\Entity\Loan;
 use App\Modules\Loan\Domain\Enums\Status;
 use App\Modules\Loan\Domain\Repositories\LoanQueryRepositoryInterface;
+use App\Modules\Loan\Domain\ValueObject\Query\UserHistoryQuery;
+use App\Modules\Loan\Domain\ValueObject\QueryResult\UserHistoryResult;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -36,5 +38,29 @@ class LoanQueryRepository extends ServiceEntityRepository implements LoanQueryRe
     public function findById(string $id): ?Loan
     {
         return $this->find($id);
+    }
+
+    /** @return UserHistoryResult[] */
+    public function loadUserHistory(UserHistoryQuery $query): array
+    {
+        return $this->createQueryBuilder('loan')
+            ->select(sprintf(
+                'NEW %s(
+                    book.title.title,
+                    book.author.author,
+                    book.isbn.isbn,
+                    book.yearPublished.yearPublished,
+                    loan.status,
+                    loan.rentalDate,
+                    loan.returnDate
+                )',
+                UserHistoryResult::class,
+            ))
+            ->leftJoin('loan.book', 'book')
+            ->where('loan.user = :userId')
+            ->setParameter('userId', $query->userId)
+            ->getQuery()
+            ->getResult()
+        ;
     }
 }

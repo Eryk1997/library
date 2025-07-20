@@ -15,7 +15,6 @@ use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\Table;
-use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Component\Uid\Uuid;
 
 #[Entity]
@@ -25,7 +24,7 @@ class Book
 {
     public function __construct(
         #[Id]
-        #[Column(type: UuidType::NAME, unique: true)]
+        #[Column(type: 'uuid_mariadb', unique: true)]
         private Uuid $id,
         #[Embedded(class: Title::class, columnPrefix: false)]
         private Title $title,

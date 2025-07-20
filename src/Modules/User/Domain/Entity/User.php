@@ -11,7 +11,6 @@ use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\Table;
-use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Uid\Uuid;
@@ -26,7 +25,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function __construct(
         #[Id]
-        #[Column(type: UuidType::NAME, unique: true)]
+        #[Column(type: 'uuid_mariadb', unique: true)]
         private Uuid $id,
         #[Column(type: Types::STRING, length: 255)]
         private string $fistName,
@@ -89,5 +88,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getUserIdentifier(): string
     {
         return $this->email;
+    }
+
+    public function isMember(): bool
+    {
+        return $this->type === Type::MEMBER;
     }
 }
