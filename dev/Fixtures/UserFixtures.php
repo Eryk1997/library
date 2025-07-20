@@ -6,6 +6,7 @@ namespace App\Dev\Fixtures;
 
 use App\Modules\User\Domain\Entity\User;
 use App\Modules\User\Domain\Enums\Type;
+use App\Modules\User\Domain\ValueObject\UserId;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -38,14 +39,14 @@ class UserFixtures extends Fixture
     {
         return [
             new User(
-                id: Uuid::v7(),
+                id: UserId::new()->toUuid(),
                 fistName: 'eryk',
                 lastName: 'janocha',
                 email: 'eryk.librarian@gmail.com',
                 type: Type::LIBRARIAN,
             ),
             new User(
-                id: Uuid::v7(),
+                id: UserId::new()->toUuid(),
                 fistName: 'eryk',
                 lastName: 'janocha',
                 email: 'eryk.member@gmail.com',

@@ -1,6 +1,8 @@
 user:
     not_found: 'Nie znaleziono użytkownika!'
     invalid_credentials: 'Nieprawidłowe dane uwierzytelniające'
+    history:
+        access_failed: 'Brak uprawnień'
 
 book:
     not_found: 'Nie znaleziono książki!'
