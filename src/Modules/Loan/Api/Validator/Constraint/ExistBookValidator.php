@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Modules\Book\Api\Validator\Constraint;
+namespace App\Modules\Loan\Api\Validator\Constraint;
 
 use App\Modules\Book\Application\Exception\NotFoundBookException;
 use App\Modules\Book\Application\Provider\BookProvider;
@@ -11,7 +11,7 @@ use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class UniqueBookTitleValidator extends ConstraintValidator
+class ExistBookValidator extends ConstraintValidator
 {
     public function __construct(
         private readonly BookProvider $bookProvider,
@@ -21,8 +21,8 @@ class UniqueBookTitleValidator extends ConstraintValidator
 
     public function validate(mixed $value, Constraint $constraint): void
     {
-        if (!$constraint instanceof UniqueBookTitle) {
-            throw new UnexpectedTypeException($constraint, UniqueBookTitle::class);
+        if (!$constraint instanceof ExistBook) {
+            throw new UnexpectedTypeException($constraint, ExistBook::class);
         }
 
         if ($value === null || $value === '') {
@@ -30,13 +30,12 @@ class UniqueBookTitleValidator extends ConstraintValidator
         }
 
         try {
-            $this->bookProvider->findByTitle($value);
-
+            $this->bookProvider->loadById($value);
+        } catch (NotFoundBookException $exception) {
             $this->context
-                ->buildViolation($this->translator->trans($constraint->message, ['{{ title }}' => $value], 'exceptions'))
+                ->buildViolation($this->translator->trans($exception->getMessage(), domain: 'exceptions'))
                 ->addViolation()
             ;
-        } catch (NotFoundBookException) {
         }
     }
 }
