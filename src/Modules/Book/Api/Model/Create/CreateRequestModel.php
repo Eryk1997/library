@@ -25,7 +25,7 @@ final readonly class CreateRequestModel
         #[Length(max: 20)]
         public string $isbn,
         #[NotBlank]
-        #[GreaterThanOrEqual(1, message: 'Liczba egzemplarzy musi być co najmniej 1.')]
+        #[GreaterThanOrEqual(1)]
         public int $numberCopies,
         #[NotBlank]
         public int $yearPublished,
