@@ -32,4 +32,9 @@ class LoanQueryRepository extends ServiceEntityRepository implements LoanQueryRe
             ->getSingleResult()
         ;
     }
+
+    public function findById(string $id): ?Loan
+    {
+        return $this->find($id);
+    }
 }

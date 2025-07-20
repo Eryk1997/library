@@ -71,4 +71,19 @@ class Loan
     {
         return $this->status;
     }
+
+    public function setStatus(Status $status): void
+    {
+        $this->status = $status;
+    }
+
+    public function markReturned(): void
+    {
+        $this->returnDate = new \DateTimeImmutable();
+    }
+
+    public function isReturned(): bool
+    {
+        return $this->status === Status::RETURNED;
+    }
 }
