@@ -16,3 +16,6 @@ book:
         min: 'Ilość kopii nie może być mniejsze niż %max%'
     year_published:
         max_date: 'Rok publikacji nie może przekraczać aktualnego roku'
+loan:
+    not_found: 'Nie znaleziono wypożyczenia!'
+    returned: 'Książka zwrócona!'
