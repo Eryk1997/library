@@ -4,3 +4,14 @@ user:
 
 book:
     not_found: 'Nie znaleziono książki!'
+    title_already_exists: 'Książka o tytule: {{ title }}, już istnieje.'
+    title:
+        max_length: 'Tytuł nie może być większy niż %max% znaki'
+    author:
+        max_length: 'Tytuł nie może być większy niż %max% znaki'
+    isbn:
+        max_length: 'ISBN nie może być większy niż %max% znaki'
+    number_copies:
+        min: 'Ilość kopii nie może być mniejsze niż %max%'
+    year_published:
+        max_date: 'Rok publikacji nie może przekraczać aktualnego roku'

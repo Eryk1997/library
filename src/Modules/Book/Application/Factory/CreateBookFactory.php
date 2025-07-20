@@ -5,6 +5,11 @@ declare(strict_types=1);
 namespace App\Modules\Book\Application\Factory;
 
 use App\Modules\Book\Application\Messenger\Command\CreateBookCommand;
+use App\Modules\Book\Domain\Embeddable\Author;
+use App\Modules\Book\Domain\Embeddable\Isbn;
+use App\Modules\Book\Domain\Embeddable\NumberCopies;
+use App\Modules\Book\Domain\Embeddable\Title;
+use App\Modules\Book\Domain\Embeddable\YearPublished;
 use App\Modules\Book\Domain\Entity\Book;
 
 class CreateBookFactory
@@ -13,11 +18,11 @@ class CreateBookFactory
     {
         return new Book(
             id: $createBookCommand->bookId->toUuid(),
-            title: $createBookCommand->title,
-            author: $createBookCommand->author,
-            isbn: $createBookCommand->isbn,
-            numberCopies: $createBookCommand->numberCopies,
-            yearPublished: $createBookCommand->yearPublished,
+            title: new Title($createBookCommand->title),
+            author: new Author($createBookCommand->author),
+            isbn: new Isbn($createBookCommand->isbn),
+            numberCopies: new NumberCopies($createBookCommand->numberCopies),
+            yearPublished: new YearPublished($createBookCommand->yearPublished),
         );
     }
 }

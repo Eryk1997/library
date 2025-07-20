@@ -9,13 +9,14 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Symfony\Component\Security\Core\Exception\BadCredentialsException;
 use Symfony\Component\Validator\Exception\ValidationFailedException;
 
 class ApiExceptionSubscriber implements EventSubscriberInterface
 {
-    private const API_FIREWALL = 'login'; // albo 'api'
+    private const API_FIREWALL = 'api';
 
     public function __construct(
         private readonly Security $security,
@@ -42,7 +43,6 @@ class ApiExceptionSubscriber implements EventSubscriberInterface
         if ($throwable instanceof HttpExceptionInterface
             && $throwable->getPrevious() instanceof ValidationFailedException
         ) {
-            /** @var ValidationFailedException $validation */
             $validation = $throwable->getPrevious();
 
             $errors = [];
@@ -50,23 +50,28 @@ class ApiExceptionSubscriber implements EventSubscriberInterface
                 $errors[$violation->getPropertyPath()][] = $violation->getMessage();
             }
 
-            $response = new JsonResponse([
+            $event->setResponse(new JsonResponse([
                 'code' => Response::HTTP_UNPROCESSABLE_ENTITY,
                 'errors' => $errors,
-            ], Response::HTTP_UNPROCESSABLE_ENTITY);
-
-            $event->setResponse($response);
+            ], Response::HTTP_UNPROCESSABLE_ENTITY));
 
             return;
         }
 
         if ($throwable instanceof BadCredentialsException) {
-            $response = new JsonResponse([
+            $event->setResponse(new JsonResponse([
                 'code' => Response::HTTP_UNAUTHORIZED,
                 'message' => $throwable->getMessage(),
-            ], Response::HTTP_UNAUTHORIZED);
+            ], Response::HTTP_UNAUTHORIZED));
 
-            $event->setResponse($response);
+            return;
+        }
+
+        if ($throwable instanceof AccessDeniedHttpException) {
+            $event->setResponse(new JsonResponse([
+                'code' => Response::HTTP_FORBIDDEN,
+                'message' => 'Access Denied. You do not have permission to access this resource.',
+            ], Response::HTTP_FORBIDDEN));
 
             return;
         }

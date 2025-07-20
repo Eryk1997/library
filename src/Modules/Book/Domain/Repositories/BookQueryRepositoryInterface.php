@@ -15,4 +15,6 @@ interface BookQueryRepositoryInterface
     public function findByListBookQuery(ListBookQueryVO $query): Paginator;
 
     public function findById(string $id): ?Book;
+
+    public function findByTitle(string $title): ?Book;
 }

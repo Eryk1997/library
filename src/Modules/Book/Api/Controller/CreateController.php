@@ -11,9 +11,12 @@ use App\Shared\Infrastructure\Messenger\CommandBus\CommandBus;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
+use Symfony\Component\Messenger\Exception\HandlerFailedException;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[AsController]
+#[IsGranted('ROLE_LIBRARIAN')]
 #[Route('/books', name: 'api_books_create', methods: ['POST'])]
 class CreateController extends AbstractApiController
 {
@@ -22,11 +25,15 @@ class CreateController extends AbstractApiController
         CreateRequestModel $createRequestModel,
         CommandBus $commandBus,
     ): JsonResponse {
-        $id = BookId::new();
-        $command = $createRequestModel->toCreateBookCommand($id);
+        try {
+            $id = BookId::new();
+            $command = $createRequestModel->toCreateBookCommand($id);
 
-        $commandBus->dispatch($command);
+            $commandBus->dispatch($command);
 
-        return $this->successData($id);
+            return $this->successData($id);
+        } catch (HandlerFailedException $exception) {
+            return $this->successKnownIssueMessage($exception);
+        }
     }
 }

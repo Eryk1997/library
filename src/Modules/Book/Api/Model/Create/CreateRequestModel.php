@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Book\Api\Model\Create;
 
+use App\Modules\Book\Api\Validator\Constraint\UniqueBookTitle;
 use App\Modules\Book\Application\Messenger\Command\CreateBookCommand;
 use App\Modules\Book\Domain\ValueObject\BookId;
 use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
@@ -13,6 +14,7 @@ final readonly class CreateRequestModel
 {
     public function __construct(
         #[NotBlank]
+        #[UniqueBookTitle]
         public string $title,
         #[NotBlank]
         public string $author,

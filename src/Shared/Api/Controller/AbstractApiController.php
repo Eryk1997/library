@@ -61,6 +61,30 @@ class AbstractApiController
         ]);
     }
 
+    /** @param array<int, string> $errors */
+    protected function successKnownIssueMessage(\Exception $exception, array $errors = []): JsonResponse
+    {
+        $translatedMessage = 'Unexpected error';
+
+        $previous = $exception->getPrevious();
+        if ($previous && $previous->getMessage()) {
+            $data = json_decode($previous->getMessage(), true);
+            if (is_array($data) && isset($data['key'])) {
+                $translatedMessage = $this->translator->trans($data['key'], $data['params'] ?? [], 'exceptions');
+            } else {
+                $translatedMessage = $this->translator->trans($previous->getMessage(), [], 'exceptions');
+            }
+        }
+
+        return $this->json([
+            'response' => 'false',
+            'errors' => [
+                'date' => new \DateTimeImmutable(),
+                'message' => $translatedMessage,
+            ],
+        ], Response::HTTP_BAD_REQUEST);
+    }
+
     /**
      * @param array<string, mixed> $headers
      * @param array<string, mixed> $context
